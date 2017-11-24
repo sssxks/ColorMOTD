@@ -76,13 +76,13 @@ public final class BukkitMain extends JavaPlugin {
 
         for (Object motdObj : config.getList("motds")) {
             if (motdObj instanceof String) {
-                r.motds.add(((String) motdObj).replace("\\n", "\n"));
+                r.addMotd(((String) motdObj).replace("\\n", "\n"));
             } else if (motdObj instanceof Map) {
                 @SuppressWarnings("unchecked")
                 Map<String, Object> map = (Map<String, Object>) motdObj;
                 String line1 = map.getOrDefault("line1", "").toString();
                 String line2 = map.get("line2").toString();
-                r.motds.add(line1 + (line2 == null ? "" : "\n" + line2));
+                r.addMotd(line1 + (line2 == null ? "" : "\n" + line2));
             } else {
                 throw new RuntimeException("Unknown motd type: " + motdObj.getClass().getCanonicalName());
             }

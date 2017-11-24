@@ -17,8 +17,37 @@
 package net.andylizi.colormotd.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MotdConfig {
-    public final List<String> motds = new ArrayList<>();
+    private final List<String> motds = new ArrayList<>();
+    private final List<String> motdView = Collections.unmodifiableList(motds);
+
+    private final List<MotdServerIcon> serverIcons = new ArrayList<>();
+    private final List<MotdServerIcon> serverIconView = Collections.unmodifiableList(serverIcons);
+
+    public List<String> getMotds() {
+        return motdView;
+    }
+
+    public void addMotd(String motd) {
+        motds.add(motd);
+    }
+
+    public void clearMotds() {
+        motds.clear();
+    }
+
+    public List<MotdServerIcon> getServerIcons() {
+        return serverIconView;
+    }
+
+    public void addServerIcon(MotdServerIcon icon) {
+        serverIcons.add(icon);
+    }
+
+    public void clearServerIcons() {
+        serverIcons.clear();
+    }
 }

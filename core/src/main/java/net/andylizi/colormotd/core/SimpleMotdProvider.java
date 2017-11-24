@@ -39,7 +39,7 @@ public class SimpleMotdProvider implements MotdProvider {
 
     @Override
     public String provideMotd() {
-        List<String> motds = config.motds;
+        List<String> motds = config.getMotds();
         return motds.get(ThreadLocalRandom.current().nextInt(motds.size()));
     }
 }
