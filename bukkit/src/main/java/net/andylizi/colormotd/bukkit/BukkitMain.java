@@ -23,12 +23,25 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public final class BukkitMain extends JavaPlugin {
+    private static Logger logger;
+
+    public static Logger logger() {
+        return logger;
+    }
+
     ServicesManager serviceManager;
     BukkitMotdConfig motdConfig;
     BukkitMotdService motdService;
+
+    @Override
+    public void onLoad() {
+        logger = getLogger();
+    }
 
     @Override
     public void onEnable() {
@@ -44,6 +57,20 @@ public final class BukkitMain extends JavaPlugin {
         saveDefaultConfig();
         reloadConfig();
         FileConfiguration config = getConfig();
+
+        // check for ColorMOTD 1.x
+        if (!config.contains("version")) {
+            logger.info("ColorMOTD 1.x detected, renaming 'config.yml' to 'config.old.yml' ...");
+
+            File oldLocation = new File(getDataFolder(), "config.yml");
+            File newLocation = new File(getDataFolder(), "config.old.yml");
+            newLocation.delete();
+            if (!oldLocation.renameTo(newLocation)) {
+                throw new RuntimeException("Unable to rename 'config.yml' to 'config.old.yml'!");
+            }
+            saveDefaultConfig();
+            reloadConfig();
+        }
 
         BukkitMotdConfig r = new BukkitMotdConfig();
 

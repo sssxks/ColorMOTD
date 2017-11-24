@@ -1,4 +1,4 @@
-name: ColorMOTD-Reloaded
+name: ColorMOTD
 main: net.andylizi.colormotd.bukkit.BukkitMain
 version: ${project.version}
 author: andylizi
