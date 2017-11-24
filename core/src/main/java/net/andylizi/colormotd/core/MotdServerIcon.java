@@ -52,9 +52,9 @@ public class MotdServerIcon {
         }
 
         try {
-            String str = data.substring(headerLength + 1);
+            String str = data.substring(headerLength);
             int firstSemicolon = str.indexOf(';');
-            if (!data.regionMatches(true, firstSemicolon + 1, base64Header, 0, base64Header.length())) {
+            if (!str.regionMatches(true, firstSemicolon + 1, base64Header, 0, base64Header.length())) {
                 throw new IllegalArgumentException("Invalid data: " + data);
             }
 
