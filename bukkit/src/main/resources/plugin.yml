@@ -1,0 +1,7 @@
+name: ColorMOTD-Reloaded
+main: net.andylizi.colormotd.bukkit.BukkitMain
+version: ${project.version}
+author: andylizi
+load: startup
+awareness:
+    - !@UTF8

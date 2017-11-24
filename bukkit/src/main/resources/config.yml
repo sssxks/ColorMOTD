@@ -1,0 +1,7 @@
+motds:
+    - line1: "This is motd1, line1"
+      line2: "This is motd2, line2"
+    - |
+        This is motd2, line1
+        This is motd2, line2
+    - "This is motd3, line1\nThis is motd3, line2"
