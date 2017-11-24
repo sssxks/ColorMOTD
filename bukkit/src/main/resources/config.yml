@@ -1,7 +1,7 @@
 version: ${project.versionNumber}
 motds:
     - line1: "This is motd1, line1"
-      line2: "This is motd2, line2"
+      line2: "This is motd1, line2"
     - |
         This is motd2, line1
         This is motd2, line2
