@@ -23,6 +23,13 @@ import org.bukkit.util.CachedServerIcon;
 import java.awt.image.BufferedImage;
 
 public class BukkitMotdServerIcon extends MotdServerIcon {
+    public static BukkitMotdServerIcon wrap(MotdServerIcon serverIcon) {
+        if (serverIcon instanceof BukkitMotdServerIcon) {
+            return (BukkitMotdServerIcon) serverIcon;
+        }
+        return new BukkitMotdServerIcon(serverIcon);
+    }
+
     private CachedServerIcon cachedServerIcon;
 
     public BukkitMotdServerIcon(String data) {
@@ -33,10 +40,15 @@ public class BukkitMotdServerIcon extends MotdServerIcon {
         super(bufferedImage);
     }
 
+    public BukkitMotdServerIcon(MotdServerIcon serverIcon) {
+        super(serverIcon.isDataStringInitialized() ? serverIcon.toDataString() : null,
+                serverIcon.isBufferedImageInitialized() ? serverIcon.toBufferedImage() : null);
+    }
+
     public CachedServerIcon toCachedServerIcon() {
-        if(cachedServerIcon == null) {
+        if (cachedServerIcon == null) {
             synchronized (this) {
-                if(cachedServerIcon == null) {
+                if (cachedServerIcon == null) {
                     try {
                         cachedServerIcon = Bukkit.loadServerIcon(toBufferedImage());
                     } catch (Exception e) {

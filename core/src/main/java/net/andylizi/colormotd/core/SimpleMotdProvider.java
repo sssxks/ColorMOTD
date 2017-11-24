@@ -16,9 +16,9 @@
  */
 package net.andylizi.colormotd.core;
 
-import java.util.List;
+import net.andylizi.colormotd.core.util.MotdUtils;
+
 import java.util.Objects;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class SimpleMotdProvider implements MotdProvider {
     protected final MotdConfig config;
@@ -39,7 +39,11 @@ public class SimpleMotdProvider implements MotdProvider {
 
     @Override
     public String provideMotd() {
-        List<String> motds = config.getMotds();
-        return motds.get(ThreadLocalRandom.current().nextInt(motds.size()));
+        return MotdUtils.getRandomItem(config.getMotds());
+    }
+
+    @Override
+    public MotdServerIcon provideServerIcon() {
+        return MotdUtils.getRandomItem(config.getServerIcons());
     }
 }

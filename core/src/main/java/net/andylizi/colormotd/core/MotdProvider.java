@@ -16,8 +16,14 @@
  */
 package net.andylizi.colormotd.core;
 
+import org.jetbrains.annotations.Nullable;
+
 public interface MotdProvider {
     boolean isEnabled();
 
+    @Nullable
     String provideMotd();
+
+    @Nullable
+    MotdServerIcon provideServerIcon();
 }

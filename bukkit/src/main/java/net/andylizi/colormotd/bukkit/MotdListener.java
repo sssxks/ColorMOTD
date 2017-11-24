@@ -17,6 +17,7 @@
 package net.andylizi.colormotd.bukkit;
 
 import net.andylizi.colormotd.core.MotdProvider;
+import net.andylizi.colormotd.core.MotdServerIcon;
 import net.andylizi.colormotd.core.MotdService;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,7 +34,16 @@ public class MotdListener implements Listener {
     public void onMotd(ServerListPingEvent event) {
         MotdProvider provider = service.getProvider();
         if (provider != null && provider.isEnabled()) {
-            event.setMotd(provider.provideMotd());
+            String motd = provider.provideMotd();
+            if (motd != null) {
+                event.setMotd(motd);
+            }
+
+            MotdServerIcon serverIcon = provider.provideServerIcon();
+            if (serverIcon != null) {
+                event.setServerIcon(BukkitMotdServerIcon.wrap(serverIcon)
+                        .toCachedServerIcon());
+            }
         }
     }
 }

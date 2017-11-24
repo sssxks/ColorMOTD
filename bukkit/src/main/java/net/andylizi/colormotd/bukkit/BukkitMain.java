@@ -23,11 +23,21 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public final class BukkitMain extends JavaPlugin {
+    private static final Set<String> SUPPORTED_IMAGE_FORMAT = Arrays.stream(ImageIO.getReaderFileSuffixes())
+            .map("."::concat)
+            .collect(Collectors.toSet());
     private static Logger logger;
 
     public static Logger logger() {
@@ -85,6 +95,19 @@ public final class BukkitMain extends JavaPlugin {
                 r.addMotd(line1 + (line2 == null ? "" : "\n" + line2));
             } else {
                 throw new RuntimeException("Unknown motd type: " + motdObj.getClass().getCanonicalName());
+            }
+        }
+
+        File iconFolder = new File(getDataFolder(), "favicons/");
+        if(!iconFolder.isDirectory()) iconFolder.mkdirs();
+        //noinspection ConstantConditions
+        for(File file : iconFolder.listFiles((dir, name) ->
+                SUPPORTED_IMAGE_FORMAT.stream().anyMatch(name::endsWith))) {
+            try {
+                BufferedImage image = ImageIO.read(file);
+                r.addServerIcon(new BukkitMotdServerIcon(image));
+            } catch (IOException e) {
+                throw new UncheckedIOException("Unable to load " + file.getName(), e);
             }
         }
 

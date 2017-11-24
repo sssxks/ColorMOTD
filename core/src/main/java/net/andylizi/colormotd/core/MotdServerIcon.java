@@ -77,6 +77,14 @@ public class MotdServerIcon {
         this.bufferedImage = Objects.requireNonNull(bufferedImage);
     }
 
+    protected MotdServerIcon(String data, BufferedImage bufferedImage) {
+        if (data == null && bufferedImage == null) {
+            throw new NullPointerException();
+        }
+        this.data = data;
+        this.bufferedImage = bufferedImage;
+    }
+
     public String toDataString() {
         if (data == null) {
             synchronized (this) {
@@ -103,6 +111,14 @@ public class MotdServerIcon {
             }
         }
         return bufferedImage;
+    }
+
+    public boolean isBufferedImageInitialized() {
+        return bufferedImage != null;
+    }
+
+    public boolean isDataStringInitialized() {
+        return data != null;
     }
 
     @Override

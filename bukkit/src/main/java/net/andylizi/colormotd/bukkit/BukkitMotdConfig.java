@@ -17,7 +17,29 @@
 package net.andylizi.colormotd.bukkit;
 
 import net.andylizi.colormotd.core.MotdConfig;
+import net.andylizi.colormotd.core.MotdServerIcon;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class BukkitMotdConfig extends MotdConfig {
+    private final List<BukkitMotdServerIcon> cachedServerIcons = new ArrayList<>();
+    private final List<BukkitMotdServerIcon> cachedServerIconView = Collections.unmodifiableList(cachedServerIcons);
 
+    public List<BukkitMotdServerIcon> getCachedServerIcons() {
+        return cachedServerIconView;
+    }
+
+    @Override
+    public void addServerIcon(MotdServerIcon icon) {
+        super.addServerIcon(icon);
+        cachedServerIcons.add(BukkitMotdServerIcon.wrap(icon));
+    }
+
+    @Override
+    public void clearServerIcons() {
+        super.clearServerIcons();
+        cachedServerIcons.clear();
+    }
 }
